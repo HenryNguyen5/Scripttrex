@@ -39,4 +39,4 @@ const generateBittrexApi = () =>
 		return bittrexApi
 	}, {})
 
-module.exports = { bittrexApi: generateBittrexApi() }
+export default generateBittrexApi()
