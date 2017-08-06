@@ -7,7 +7,7 @@ const opts = {
 }
 const getNonce = () => Math.floor(new Date().getTime() / 1000)
 
-const groups = {
+const api = {
 	public: {
 		getMarkets: {}, // Used to get the open and available trading markets at Bittrex along with other meta data.
 		getCurrencies: {}, // Used to get all supported currencies at Bittrex along with other meta data.
@@ -41,20 +41,20 @@ const makeQueryString = obj =>
 	)}`
 
 const generateBittrexApi = () =>
-	Object.keys(groups).reduce((bittrexApi, group) => {
+	Object.keys(api).reduce((bittrexApi, methodType) => {
 		//make the group to fill the methods in with
-		bittrexApi[group] = {}
+		bittrexApi[methodType] = {}
 
-		Object.keys(groups[group]).forEach(method => {
-			const urlPrefix = `${group}/${method.toLowerCase()}`
+		Object.keys(api[methodType]).forEach(method => {
+			const urlPrefix = `${methodType}/${method.toLowerCase()}`
 			// If its a method that needs authorization, including it in the query string parameters
 			const authQs =
-				group === 'public'
+				methodType === 'public'
 					? { nonce: getNonce() }
 					: { apikey: opts.apikey, nonce: getNonce() }
 
 			// Each method on the bittrex api can accept custom query strings
-			bittrexApi[group][method] = async customQueryStrings => {
+			bittrexApi[methodType][method] = async customQueryStrings => {
 				const qs = makeQueryString({ ...customQueryStrings, ...authQs })
 				const url = `${opts.baseUrl}/${urlPrefix}/${qs}`
 				return request(url, {
