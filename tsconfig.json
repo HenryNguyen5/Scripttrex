@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": true,
+        "strictNullChecks": true,
+        "skipLibCheck": true,
+        "noImplicitAny": false,
+        "noEmitOnError": false,
+        "watch": false,
+        "noImplicitReturns": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "baseUrl": "." // This must be specified if "paths" is.
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
