@@ -58,7 +58,10 @@ const generateBittrexApi = () =>
 				const qs = makeQueryString({ ...customQueryStrings, ...authQs })
 				const url = `${opts.baseUrl}/${urlPrefix}/${qs}`
 				return request(url, {
-					headers: { apisign: hmacSha512.HmacSHA512(url, opts.apisecret) }
+					headers: {
+						apisign: hmacSha512.HmacSHA512(url, opts.apisecret),
+						json: true //parse the response body JSON
+					}
 				})
 			}
 		})
