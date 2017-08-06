@@ -1,39 +1,10 @@
 const hmacSha512 = require('./hmac-sha512.js')
-const request = require('request-promise-native')
-const opts = {
-	baseUrl: 'https://bittrex.com/api/v1.1',
-	apikey: 'APIKEY',
-	apisecret: 'APISECRET'
-}
+import * as request from 'request-promise-native'
+import api from './bittrex-api-metadata'
+import opts from './request-opts'
+
 const getNonce = () => Math.floor(new Date().getTime() / 1000)
 
-const api = {
-	public: {
-		getMarkets: {}, // Used to get the open and available trading markets at Bittrex along with other meta data.
-		getCurrencies: {}, // Used to get all supported currencies at Bittrex along with other meta data.
-		getTicker: {}, // Used to get the current tick values for a market.
-		getMarketSummaries: {},
-		getMarketSummary: {},
-		getOrderBook: {},
-		getMarketHistory: {}
-	},
-	market: {
-		buyLimit: {},
-		sellLimit: {},
-		cancel: {},
-		getOpenOrders: {}
-	},
-	account: {
-		getBalances: {},
-		getBalance: {},
-		getDepositAddress: {},
-		withdraw: {},
-		getOrder: {},
-		getOrderHistory: {},
-		getWithdrawlHistory: {},
-		getDepositHistory: {}
-	}
-}
 const makeQueryString = obj =>
 	`?${Object.keys(obj).reduce(
 		(str, key, index) => `${str}${index === 0 ? '' : '&'}${key}=${obj[key]}`,
