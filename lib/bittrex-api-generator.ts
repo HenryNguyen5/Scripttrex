@@ -1,44 +1,34 @@
-const hmacSha512 = require('./hmac-sha512.js')
 import * as request from 'request-promise-native'
 import api from './bittrex-api-metadata'
 import opts from './request-opts'
 import BittrexApi from './bittrex-api-generator-types'
-const getNonce = () => Math.floor(new Date().getTime() / 1000)
+import urlUtils from './bittrex-urlUtils'
 
-const makeQueryString = obj =>
-	`?${Object.keys(obj).reduce(
-		(str, key, index) => `${str}${index === 0 ? '' : '&'}${key}=${obj[key]}`,
-		''
-	)}`
+const reduceObject = <T>(obj, reducer): T =>
+	Object.keys(obj).reduce(reducer, obj as T)
 
-const generateBittrexApi = Object.keys(
-	api
-).reduce((bittrexApi, methodType): BittrexApi => {
-	//make the group to fill the methods in with
-	bittrexApi[methodType] = {}
+const makeRequest = url =>
+	request(url, {
+		headers: urlUtils.signUrl(url),
+		json: true //parse the response body JSON
+	})
 
+const bittrexReducer = (bittrexApi, methodType): BittrexApi => {
 	Object.keys(api[methodType]).forEach(method => {
-		const urlPrefix = `${methodType}/${method.toLowerCase()}`
-		// If its a method that needs authorization, including it in the query string parameters
-		const authQs =
-			methodType === 'public'
-				? { nonce: getNonce() }
-				: { apikey: opts.apikey, nonce: getNonce() }
+		const apiPath = urlUtils.formApiPath(methodType, method),
+			authQs = urlUtils.makeAuthorizedQs(methodType)
 
 		// Each method on the bittrex api can accept custom query strings
-		bittrexApi[methodType][method] = customQueryStrings => {
-			const qs = makeQueryString({ ...customQueryStrings, ...authQs })
-			const url = `${opts.baseUrl}/${urlPrefix}/${qs}`
+		bittrexApi[methodType][method] = async customQueryStrings => {
+			const qs = urlUtils.qsFromObject({ ...customQueryStrings, ...authQs }),
+				url = urlUtils.formFullUrl(opts.baseUrl, apiPath, qs)
 
-			return request(url, {
-				headers: {
-					apisign: hmacSha512.HmacSHA512(url, opts.apisecret)
-				},
-				json: true //parse the response body JSON
-			})
+			return makeRequest(url)
 		}
 	})
 	return bittrexApi
-}, {} as BittrexApi)
+}
 
-export default generateBittrexApi
+const generatedApi: BittrexApi = reduceObject(api, bittrexReducer)
+
+export default generatedApi
