@@ -26,7 +26,7 @@ const generateBittrexApi = Object.keys(
 				: { apikey: opts.apikey, nonce: getNonce() }
 
 		// Each method on the bittrex api can accept custom query strings
-		bittrexApi[methodType][method] = async customQueryStrings => {
+		bittrexApi[methodType][method] = customQueryStrings => {
 			const qs = makeQueryString({ ...customQueryStrings, ...authQs })
 			const url = `${opts.baseUrl}/${urlPrefix}/${qs}`
 
