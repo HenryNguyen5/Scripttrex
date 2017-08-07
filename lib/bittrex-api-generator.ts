@@ -32,9 +32,9 @@ const generateBittrexApi = Object.keys(
 
 			return request(url, {
 				headers: {
-					apisign: hmacSha512.HmacSHA512(url, opts.apisecret),
-					json: true //parse the response body JSON
-				}
+					apisign: hmacSha512.HmacSHA512(url, opts.apisecret)
+				},
+				json: true //parse the response body JSON
 			})
 		}
 	})
