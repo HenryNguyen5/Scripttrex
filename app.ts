@@ -1,28 +1,27 @@
 const sigt = require('bitcoin')
 const config = require('./config')
 import generatedApi from './lib/bittrex-api-generator'
-
 const client = new sigt.Client(config)
 const TX_FEE = 0.0001
 const DEV = true
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 //console.log(generatedApi.account.getBalance({currency:'ETH'}));
-const txid = async function pollBalance(_currency) {
-	var response = generatedApi.account
-		.getBalance({ currency: _currency })
-		.then(function(res) {
-			if (res['success'] == 'true') return res['CryptoAddress']
-			else console.log('Not Found')
-		})
-	await sleep(2000)
+const txid = async function pollBalance(currency) {
+	try {
+		const response = await generatedApi.account.getBalance({ currency })
+		if (response.success === false) throw Error('Call to api failed')
+		//do everything you need to here...
+	} catch (e) {
+		console.log('Trying again in two seconds..')
+		await sleep(2000)
+		pollBalance(currency)
+	}
 }
 
 function transfer(address, amount) {
 	console.log(address)
-}
-
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 async function transferFunds({ address, amount }) {
