@@ -3,10 +3,10 @@ interface Market {
 	market: string
 }
 interface Quantity {
-	quantity: string
+	quantity: number
 }
 interface Rate {
-	rate: string
+	rate: number
 }
 interface Type {
 	type: string
