@@ -1,4 +1,6 @@
 node_modules/
 **/*.map
 **/*.js
-lib/request-opts.ts
+lib/configs/twilio-opts.ts
+lib/configs/request-opts.ts
+lib/configs/options.ts
