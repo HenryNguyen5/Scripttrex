@@ -3,7 +3,7 @@ import opts from "../configs/twilio-opts.js"
 
 let client =  new twilio(opts.accountSid, opts.authToken);
 
-class Notifier {
+export default class Notify {
 	constructor() {}
 	
 	public notify(message) {
@@ -16,5 +16,3 @@ class Notifier {
 		});
 	}
 };
-
-export = Notifier;

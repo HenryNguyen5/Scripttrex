@@ -13,7 +13,9 @@ import opts from "../configs/options";
 	constructor({name, ticker}) { this.name = name; this.ticker = ticker });
 }*/
 
-export default class Poll {
+export default class Poll {	
+	constructor() {};
+	
 	DepositAddress(ticker) {
 		return new Promise((resolve, reject) => {
 			let interval;
@@ -32,14 +34,14 @@ export default class Poll {
 					if (response.result.Address !== "") {
 						//Address wasn't generated in time - no response request again
 						clearInterval(interval);
-						setTimeout(poll, 5000, ticker);
+						setTimeout(poll, 5000,ticker);
 					} else {
 						resolve(response.result);
 					}
 				} else if (response.message === "ADDRESS_GENERATING") {
 					//Shorten interval period as next request will likely have an address
 					clearInterval(interval);
-				   setTimeout(poll, 5000, ticker);
+				   setTimeout(poll, 5000,ticker);
 				}
 				else {
 					reject(response);
