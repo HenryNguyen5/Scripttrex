@@ -1,6 +1,6 @@
 const sigt = require('bitcoin')
 const config = require('./config')
-import generatedApi from './lib/bittrex-api-generator'
+import generatedApi from './lib/bittrex-api/bittrex-api-generator'
 const client = new sigt.Client(config)
 const TX_FEE = 0.0001
 const DEV = true
