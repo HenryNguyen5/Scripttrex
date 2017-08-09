@@ -1,6 +1,6 @@
 import * as request from 'request-promise-native'
 import api from './bittrex-api-metadata'
-import opts from './request-opts'
+import opts from '../configs/request-opts'
 import BittrexApi from './bittrex-api-generator-types'
 import urlUtils from './bittrex-urlUtils'
 

@@ -1,5 +1,5 @@
 const hmacSha512 = require('./hmac-sha512.js')
-import opts from './request-opts'
+import opts from '../configs/request-opts'
 const getNonce = () => Math.floor(new Date().getTime() / 1000)
 
 export default {

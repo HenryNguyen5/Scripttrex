@@ -1,5 +1,5 @@
 export default {
-  phonesToNotify: ["+1234567890"],
+  phonesToNotify: [""],
   accountSid: "",
   authToken: "",
   number: ""
