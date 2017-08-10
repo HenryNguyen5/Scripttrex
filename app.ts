@@ -1,6 +1,6 @@
-import generatedApi from './lib/bittrex-api-generator'
-import {getBalanceAsync, sendToAddressAsync, isValidTransferAmount, transferFunds} from './sigt-wallet'
-import {pollDepositAddress, sellFundsOnArrival} from './bittrex-commands'
+import generatedApi from './lib/bittrex-api/bittrex-api-generator'
+import {getBalanceAsync, sendToAddressAsync, isValidTransferAmount, transferFunds} from './lib/actions/sigt-wallet'
+import {pollDepositAddress, sellFundsOnArrival} from './lib/actions/bittrex-commands'
 
 function initSale(currency, quantity, price){
 	pollDepositAddress(currency)

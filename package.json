@@ -23,8 +23,9 @@
     "@types/request-promise-native": "^1.0.6"
   },
   "dependencies": {
+    "bitcoin": "^3.0.1",
     "request": "^2.81.0",
     "request-promise-native": "^1.0.4",
-    "bitcoin": "^3.0.1"
+    "twilio": "^3.6.1"
   }
 }

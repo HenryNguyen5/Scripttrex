@@ -1,4 +1,4 @@
-import generatedApi from './lib/bittrex-api-generator'
+import generatedApi from '../bittrex-api/bittrex-api-generator'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
