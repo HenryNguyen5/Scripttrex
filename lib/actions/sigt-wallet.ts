@@ -5,8 +5,7 @@ const client = new sigt.Client(config)
 const TX_FEE = 0.0001
 const DEV = false
 
-export const isValidTransferAmount = ({ balance, quantity }): boolean =>
-	quantity && balance && balance >= quantity ? true : false
+export const isValidTransferAmount = ({ balance, quantity }): boolean => quantity && balance && balance >= quantity
 
 export const getBalanceAsync = ({ address = '*', confirmations = 0 }) =>
 	new Promise((resolve, reject) =>

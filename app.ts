@@ -9,8 +9,8 @@ import {
 
 const initSale = (currency, quantity, price) => (
 	pollDepositAddress(currency)
-		.then((address) => transferFunds({ address, quantity }))
-		.then(() => sellFundsOnArrival({currency, quantity, price}))
+		.then(address => transferFunds({ address, quantity }))
+		.then(() => sellFundsOnArrival({ currency, quantity, price }))
 		.catch(e => console.error(e))
 );
 
