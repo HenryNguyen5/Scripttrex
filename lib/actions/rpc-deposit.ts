@@ -1,11 +1,11 @@
 const sigt = require('bitcoin')
-const config = require('./config')
+import sigtClientConfig from '../configs/sigt-opts'
 import generatedApi from '../bittrex-api/generator'
 /*
 * Handles the transfers from rpc client
 *
 */
-const client = new sigt.Client(config)
+const client = new sigt.Client(sigtClientConfig)
 const TX_FEE = 0.0001
 const DEV = true
 

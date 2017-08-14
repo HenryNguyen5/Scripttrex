@@ -1,6 +1,8 @@
-export default {
-  phonesToNotify: [""],
-  accountSid: "",
-  authToken: "",
-  number: ""
-};
+import enviromentLoader from './env-loader'
+
+export default enviromentLoader({
+	phonesToNotify: [''],
+	accountSid: '',
+	authToken: '',
+	number: ''
+})
