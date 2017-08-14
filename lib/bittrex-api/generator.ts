@@ -1,8 +1,8 @@
 import * as request from 'request-promise-native'
-import api from './bittrex-api-metadata'
+import api from './metadata'
 import opts from '../configs/request-opts'
-import BittrexApi from './bittrex-api-generator-types'
-import urlUtils from './bittrex-urlUtils'
+import IBittrex from './interface'
+import urlUtils from './urlUtils'
 
 const reduceObject = <T>(obj, reducer): T =>
 	Object.keys(obj).reduce(reducer, obj as T)
@@ -13,7 +13,7 @@ const makeRequest = url =>
 		json: true //parse the response body JSON
 	})
 
-const bittrexReducer = (bittrexApi, methodType): BittrexApi => {
+const bittrexReducer = (bittrexApi, methodType): IBittrex => {
 	Object.keys(api[methodType]).forEach(method => {
 		const apiPath = urlUtils.formApiPath(methodType, method),
 			authQs = urlUtils.makeAuthorizedQs(methodType)
@@ -29,6 +29,6 @@ const bittrexReducer = (bittrexApi, methodType): BittrexApi => {
 	return bittrexApi
 }
 
-const generatedApi: BittrexApi = reduceObject(api, bittrexReducer)
+const generatedApi: IBittrex = reduceObject<IBittrex>(api, bittrexReducer)
 
 export default generatedApi

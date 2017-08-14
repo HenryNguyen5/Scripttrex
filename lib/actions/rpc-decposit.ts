@@ -1,6 +1,6 @@
 const sigt = require('bitcoin')
 const config = require('./config')
-import generatedApi from './lib/bittrex-api/bittrex-api-generator'
+import generatedApi from '../bittrex-api/generator'
 /*
 * Handles the transfers from rpc client
 *

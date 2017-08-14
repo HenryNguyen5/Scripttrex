@@ -1,67 +1,71 @@
-import api from '../bittrex-api/bittrex-api-generator';
-import opts from '../configs/coin-opts';
+import api from '../bittrex-api/generator'
+import IBittrex from '../bittrex-api/interface'
+import opts from '../configs/coin-opts'
 
 const CONSTANTS = {
-	MAX_TIMES: 10,
-};
+	MAX_TIMES: 10
+}
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export default class Poller {
-	ticker: string | null;
-	api: {
-		account: {
-			getDepositAddress: Function;
-		}
-	};
+	ticker: string
 	opts: {
-		refreshInterval: number;
-	};
-	maxTimes: number;
+		refreshInterval: number
+	}
+	api: IBittrex
+	maxTimes: number
 
-	constructor(ticker = null, maxTimes = CONSTANTS.MAX_TIMES, _api = api, _opts = opts) {
-		this.ticker = ticker;
-		this.maxTimes = maxTimes;
-		this.api = _api;
-		this.opts = _opts;
+	constructor(
+		ticker,
+		maxTimes = CONSTANTS.MAX_TIMES,
+		_api = api,
+		_opts = opts
+	) {
+		//TODO: check for null here
+		this.ticker = ticker
+		this.maxTimes = maxTimes
+		this.api = _api
+		this.opts = _opts
 	}
 
-	getDepositAddress = async () => await this.api.account.getDepositAddress({ currency: this.ticker });
+	getDepositAddress = async () =>
+		await this.api.account.getDepositAddress({ currency: this.ticker })
 
-	depositAddress = (times = 0) => (
+	depositAddress = (times = 0) =>
 		new Promise(async (resolve, reject) => {
 			if (!this.ticker) {
-				reject(new Error(`Cannot depositAddress without a ticker.`));
+				reject(new Error(`Cannot depositAddress without a ticker.`))
 			}
 
 			if (times >= this.maxTimes) {
-				reject(new Error(`Attempted to depositAddress more than the limit of ${this.maxTimes}.`));
+				reject(
+					new Error(
+						`Attempted to depositAddress more than the limit of ${this
+							.maxTimes}.`
+					)
+				)
 			}
 
 			try {
-				const result = await this.poll();
-				resolve(result);
+				const result = await this.poll()
+				resolve(result)
 			} catch (e) {
-				await sleep(this.opts.refreshInterval * 1000);
-				this.depositAddress(times++);
+				await sleep(this.opts.refreshInterval * 1000)
+				this.depositAddress(times++)
 			}
 		})
-	)
 
-	poll = () => (
+	poll = () =>
 		new Promise(async (resolve, reject) => {
 			try {
-				const response = await this.getDepositAddress();
-				const hasResponse = response.success && response.result;
-				const hasAddress = !!response.result.Address;
+				const response = await this.getDepositAddress()
+				const hasResponse = response.success && response.result
+				const hasAddress = !!response.result.Address
 
-				hasResponse && hasAddress
-					? resolve(response.result)
-					: reject(response);
-
+				hasResponse && hasAddress ? resolve(response.result) : reject(response)
 			} catch (e) {
-				reject(e);
+				reject(e)
 			}
 		})
-	)
 }
