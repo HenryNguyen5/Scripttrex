@@ -1,1 +1,1 @@
-# bittrexAutoTransfer
+# Scripttrex
