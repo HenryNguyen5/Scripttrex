@@ -5,7 +5,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 export async function pollDepositAddress(currency) {
 	try {
 		const response = await generatedApi.account.getDepositAddress({ currency })
-		if (response.success === false) throw Error('Call to api failed')
+		if (!response.success) throw Error('Call to api failed')
 		return response.result.Address
 	} catch (e) {
 		console.log('Deposit Address not found... Trying again in thirty seconds..') //Switch this to 30s
@@ -17,7 +17,7 @@ export async function pollDepositAddress(currency) {
 export async function sellFundsOnArrival({ currency, quantity, price }) {
 	try {
 		const response = await generatedApi.account.getBalance({ currency })
-		if (response.success === false) throw Error('Funds not in account')
+		if (!response.success) throw Error('Funds not in account')
 		sellFunds({ currency, quantity, price })
 	} catch (e) {
 		console.log(
@@ -36,7 +36,7 @@ async function sellFunds({ currency, quantity, price }) {
 			quantity: quantity,
 			rate: price
 		})
-		if (response.success === false) throw Error('Call to api failed')
+		if (!response.success) throw Error('Call to api failed')
 		console.log('Limit sell placed at ' + price + ' for ' + quantity + ' units')
 	} catch (e) {
 		console.log('Sell failed... Trying again in five seconds')
