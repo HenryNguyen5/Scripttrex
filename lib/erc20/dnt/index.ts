@@ -32,7 +32,7 @@ const checkDNT = () => {
 const checkTX = async () => {
 	if (ENABLE_TX) {
 		console.warn('WARNING: TRANSACTION SENDING IS ENABLED')
-		console.warn(`ENTER ${ENABLE_TX_PASS} (case-sensitive) TO CONTINUE`)
+		console.warn(`ENTER '${ENABLE_TX_PASS}' (case-sensitive) TO CONTINUE`)
 		await checkUserTXPassAsync()
 	} else {
 		console.log('Transaction sending disabled, test mode')
@@ -40,9 +40,19 @@ const checkTX = async () => {
 	}
 }
 const checkList = async () => {
+	console.clear()
+	console.log('\nChecking web3...')
 	await checkWeb3()
+	console.log('All good, continuing')
+
+	console.log('\nChecking DNT...')
 	checkDNT()
+	console.log('All good, continuing')
+
+	console.log('\nChecking TX_SEND...')
 	await checkTX()
+
+	console.log('All good, continuing\n')
 }
 checkList()
 
