@@ -5,7 +5,7 @@ const DEFAULT_HOST = 'http://localhost:8545'
 const web3 = new Web3(DEFAULT_HOST)
 const DNT_ABI = require('./dnt-abi.json')
 const DNT_ADDRESS = '0x0abdace70d3790235af448c88547603b945604ea'
-const ENABLE_TX = true
+const ENABLE_TX = false
 const ENABLE_TX_PASS = 'get RICC'
 
 const rl = readline.createInterface({
